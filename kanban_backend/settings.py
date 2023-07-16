@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Personal Apps
+    'api.apps.ApiConfig',
+    'websocket.apps.WebsocketConfig',
 
 ]
 
