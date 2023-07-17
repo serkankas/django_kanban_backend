@@ -7,7 +7,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
-from django.contrib.auth.models import User
 from commons.functions import check_desired_field, check_category_uniqueness
 from commons.permissions import CategoryAccessPermission
 
