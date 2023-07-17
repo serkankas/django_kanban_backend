@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 from api.category.models import Category
+from api.board.models import Item
 
 def check_desired_field(desired, captured):
     return_dict = {}
@@ -66,3 +67,20 @@ def check_category_uniqueness(category_title, username):
         return False
     else:
         return True
+
+def check_item_uniqueness(item_title, username):
+    existance = Item.objects.filter(
+        Q(owner=username) & Q(item_title=item_title)
+    ).count()
+
+    if existance:
+        return False
+    else:
+        return True
+
+def check_category_permission(category_id, username):
+    category = Category.objects.get(pk=category_id)
+    if username in category.user_accesses:
+        return True
+    else:
+        return False
