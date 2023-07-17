@@ -1,6 +1,9 @@
 from rest_framework import status
 
 from django.contrib.auth.models import User
+from django.db.models import Q
+
+from api.category.models import Category
 
 def check_desired_field(desired, captured):
     return_dict = {}
@@ -53,3 +56,13 @@ def user_id_and_username_check(user_id, user_username):
 
 def check_password_quality(password):
     return True
+
+def check_category_uniqueness(category_title, username):
+    existance = Category.objects.filter(
+        Q(user_accesses=username) & Q(category_title=category_title)
+    ).count()
+
+    if existance:
+        return False
+    else:
+        return True
