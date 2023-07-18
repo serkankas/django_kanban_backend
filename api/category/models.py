@@ -4,10 +4,10 @@ from django.db.models import Q
 
 # Create your models here.
 class Category(models.Model):
-    category_id = models.PositiveSmallIntegerField(auto_created=True)
+    category_id = models.PositiveSmallIntegerField(null=True)
     category_title = models.CharField(max_length=64, null=True, blank=True)
     order_id = models.PositiveSmallIntegerField(null=True)
-    created_date = models.DateTimeField(auto_created=True)
+    created_date = models.DateTimeField()
     user_accesses = models.ManyToManyField(User)
 
     def __str__(self) -> str:
@@ -16,13 +16,17 @@ class Category(models.Model):
     @classmethod
     def count(cls, user):
         return Category.objects.filter(user_accesses=user).count()
+    
+    @classmethod
+    def get_next_id(cls):
+        return Category.objects.all().count()
 
-    def order(self, desired_id):
+    def order(self, desired_id, user_id):
         order_before = Category.objects.filter(
-            Q(user_accesses=self.user_accesses) & Q(order_id__tl=desired_id)
+            Q(user_accesses=user_id) & Q(order_id__lt=desired_id)
         )
         order_after = Category.objects.filter(
-            Q(user_accesses=self.user_accesses) & Q(order_id__gte=desired_id)
+            Q(user_accesses=user_id) & Q(order_id__gte=desired_id)
         )
         
         counter = 1

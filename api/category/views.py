@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from .models import Category
 
@@ -6,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+
+from django.contrib.auth.models import User
 
 from commons.functions import check_desired_field, check_category_uniqueness
 from commons.permissions import CategoryAccessPermission
@@ -44,15 +47,17 @@ def get_category_information(request, *args, **kwargs):
 @api_view(['PUT', 'PATCH'])
 @permission_classes([IsAuthenticated, CategoryAccessPermission])
 def update_category_information(request, *args, **kwargs):
-    desired_fields = ['id', 'category_title', 'order_id']
+    category_id = kwargs['id']
+    desired_fields = ['category_title', 'order_id']
     captured_fields = json.loads(request.body.decode())
     r_data, r_status = check_desired_field(desired_fields, captured_fields)
     if r_data != None:
         return Response(data=r_data, status=r_status)
 
-    category = Category.objects.get(pk=captured_fields['id'])
-    category.order(captured_fields["order_id"])
-    category(**captured_fields)
+    user = User.objects.get(username=request.user)
+    category = Category.objects.get(pk=category_id)
+    category.order(captured_fields["order_id"], user.pk)
+    category.category_title = captured_fields['category_title']
     category.save()
 
     return Response({"message":f"Category {category.category_title} is succesfully changed!"}, status=status.HTTP_200_OK)
@@ -66,15 +71,18 @@ def create_category_information(request, *args, **kwargs):
     if r_data != None:
         return Response(data=r_data, status=r_status)
 
-    user = request.user
+    user = User.objects.get(username=request.user)
     order = Category.count(user) + 1
     title = captured_fields['category_title']
+    category_id = Category.get_next_id() + 1
     if check_category_uniqueness(title, user):
         category = Category.objects.create(**{
             "category_title":title,
-            "user_accesses":user,
-            "order_id":order
+            "order_id":order,
+            "category_id" : category_id,
+            "created_date": datetime.datetime.now()
         })
+        category.user_accesses.add(user)
 
         return Response({"message":f"The {user} created {category.category_title} successfully!"}, status=status.HTTP_201_CREATED)
     else:
