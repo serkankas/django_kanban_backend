@@ -7,7 +7,7 @@ from api.category.models import Category
 
 # Create your models here.
 class Item(models.Model):
-    item_id = models.SmallAutoField(verbose_name="Item ID")
+    item_id = models.PositiveSmallIntegerField(auto_created=True)
     item_title = models.CharField(max_length=64, null=True, blank=True)
     item_description = models.CharField(max_length=256, null=True, blank=True)
     order_id = models.PositiveSmallIntegerField(null=True)

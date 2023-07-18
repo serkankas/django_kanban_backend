@@ -4,11 +4,11 @@ from django.db.models import Q
 
 # Create your models here.
 class Category(models.Model):
-    category_id = models.SmallAutoField(verbose_name="Category ID")
+    category_id = models.PositiveSmallIntegerField(auto_created=True)
     category_title = models.CharField(max_length=64, null=True, blank=True)
     order_id = models.PositiveSmallIntegerField(null=True)
     created_date = models.DateTimeField(auto_created=True)
-    user_accesses = models.ManyToManyField(User, null=True)
+    user_accesses = models.ManyToManyField(User)
 
     def __str__(self) -> str:
         return self.category_title
