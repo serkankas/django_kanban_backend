@@ -79,8 +79,7 @@ def check_item_uniqueness(item_title, username):
         return True
 
 def check_category_permission(category_id, username):
-    category = Category.objects.get(pk=category_id)
-    if username in category.user_accesses:
+    if not Category.objects.filter(pk=category_id, user_accesses=username).exists():
         return True
     else:
         return False

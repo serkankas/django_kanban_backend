@@ -37,9 +37,10 @@ class CategoryAccessPermission(BasePermission):
         user = User.objects.get(username=request.user)
         if user.is_superuser:
             return True
-        elif user in category.user_accesses:
+        try:
+            category.user_accesses.get(username=user.username)
             return True
-        else:
+        except User.DoesNotExist:
             return False
 
 class ItemAccessPermission(BasePermission):
