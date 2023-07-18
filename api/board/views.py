@@ -1,7 +1,10 @@
 import json
+import datetime
 
 from .models import Item
 from api.category.models import Category
+
+from django.contrib.auth.models import User
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -20,10 +23,14 @@ def item_list(request, *args, **kwargs):
     if raw_data.exists():
         return_dict = {"message":"Successfully fetch the items.", "items":{}}
         for item in raw_data:
-            tmp_dict = item.__dict__
-            tmp_dict.pop('_state')
-            return_dict["items"][item.order_id] = tmp_dict
-            del(tmp_dict)
+            return_dict["items"][item.id] = {
+                "id":item.id,
+                "item_id":item.item_id,
+                "item_title":item.item_title,
+                "item_description":item.item_description,
+                "order_id":item.order_id,
+                "category_id":item.category.pk
+            }
     else:
         return_dict = {"message":"This user doesn't have any created item yet.", "categories":{}}
 
@@ -45,15 +52,18 @@ def get_item_information(request, *args, **kwargs):
 @api_view(['PUT', 'PATCH'])
 @permission_classes([IsAuthenticated, ItemAccessPermission])
 def update_item_information(request, *args, **kwargs):
-    desired_fields = ['id', 'item_title', 'item_description', 'order_id', 'category_id']
+    item_id = kwargs['id']
+    desired_fields = ['item_title', 'item_description', 'order_id', 'category_id']
     captured_fields = json.loads(request.body.decode())
     r_data, r_status = check_desired_field(desired_fields, captured_fields)
     if r_data != None:
         return Response(data=r_data, status=r_status)
 
-    item = Item.objects.get(pk=captured_fields['id'])
+    item = Item.objects.get(pk=item_id)
     item.order(captured_fields["order_id"])
-    item(**captured_fields)
+    item.item_title = captured_fields['item_title']
+    item.item_description = captured_fields['item_description']
+    item.category = Category.objects.get(pk=captured_fields['category_id'])
     item.save()
 
     return Response({"message":f"Item {item.item_title} is succesfully changed!"}, status=status.HTTP_200_OK)
@@ -67,11 +77,12 @@ def create_item_information(request, *args, **kwargs):
     if r_data != None:
         return Response(data=r_data, status=r_status)
 
-    user = request.user
-    order = item.count(user) + 1
-    title = captured_fields['item_title']
+    user = User.objects.get(username=request.user)
     category_id = captured_fields["category_id"]
+    order = Item.count(user, category_id) + 1
+    title = captured_fields['item_title']
     category = Category.objects.get(pk=category_id)
+    item_id = Item.get_next_id() + 1
     if check_category_permission(category_id, user):
         return Response({"message": "This user cannot create item in this category."}, status=status.HTTP_406_NOT_ACCEPTABLE)
     if check_item_uniqueness(title, user):
@@ -80,7 +91,9 @@ def create_item_information(request, *args, **kwargs):
             "item_description":captured_fields["item_description"],
             "category":category,
             "owner":user,
-            "order_id":order
+            "order_id":order,
+            "item_id":item_id,
+            "created_date": datetime.datetime.now()
         })
 
         return Response({"message":f"The {user} created {title} successfully!"}, status=status.HTTP_201_CREATED)
