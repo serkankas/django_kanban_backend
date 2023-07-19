@@ -58,12 +58,18 @@ def update_item_information(request, *args, **kwargs):
     r_data, r_status = check_desired_field(desired_fields, captured_fields)
     if r_data != None:
         return Response(data=r_data, status=r_status)
+    
+    try:
+        category = Category.objects.get(pk=captured_fields['category_id'])
+    except Category.DoesNotExist:
+        return Response({"message": "This user cannot create item in this category."}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
     item = Item.objects.get(pk=item_id)
     item.order(captured_fields["order_id"])
     item.item_title = captured_fields['item_title']
     item.item_description = captured_fields['item_description']
-    item.category = Category.objects.get(pk=captured_fields['category_id'])
+    item.category = category
     item.save()
 
     return Response({"message":f"Item {item.item_title} is succesfully changed!"}, status=status.HTTP_200_OK)
