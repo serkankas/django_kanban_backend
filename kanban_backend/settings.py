@@ -4,9 +4,9 @@ from pathlib import Path
 from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-kytss)93-x0xa(ew-2i0nce_o70t1)keiu0_63!$@nr0yn7&t+'
+SECRET_KEY = 'secret'
 DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:*']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     # Third Party Apps
