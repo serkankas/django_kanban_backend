@@ -5,14 +5,15 @@ from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kytss)93-x0xa(ew-2i0nce_o70t1)keiu0_63!$@nr0yn7&t+'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:*']
 
 INSTALLED_APPS = [
     # Third Party Apps
     'daphne',
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 
 
     # Default Apps
@@ -32,6 +33,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -91,6 +93,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Additional Configurations
 
 ASGI_APPLICATION = 'kanban_backend.asgi.application'
+CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
