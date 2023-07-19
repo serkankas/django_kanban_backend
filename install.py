@@ -131,7 +131,7 @@ def create_venv():
     global _BASE_PATH
 
     os.chdir(_BACKEND_PATH)
-    execute_os_command("virtualenv -p python3 venv")
+    execute_os_command("python3 -m venv venv")
     execute_os_command(f"{_VENV_PIP_PATH} install -r {_BACKEND_PATH}/requirements.txt")
     os.chdir(_BASE_PATH)
 
