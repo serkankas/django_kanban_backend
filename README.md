@@ -1,6 +1,6 @@
 # Kanban Like Backend for Interview Applications
 
-#### For front end user, check the section [Application Notes](#app_notes)
+#### This application prepared for front end applicant for Smart Marine and Avatec Marine companies. For frontend users please check the section [Application Notes](#app_notes)
 
 Contains:
 
