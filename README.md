@@ -9,13 +9,13 @@ API Level
 1. User Registiration
 1. User Authentication (with JWT)
 1. Categories (CRUD)
-1. Boards (CRUD)
+1. Items (CRUD)
 
 Websocket Level
 
 1. Time
-1. Notifications
-1. Changes
+1. Notifications (Not Implemented Yet)
+1. Changes (Not Implemented Yet)
 
 <hr>
 
