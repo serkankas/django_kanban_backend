@@ -118,4 +118,11 @@ For Request body or Response body, if else is not mentioned, the body itself is 
 |http://134.209.207.128/api |/item | /create/| API for creating new item| POST| item_title:item_title, item_description:item_description, category_id:category_id_unique| message
 |http://134.209.207.128/api |/item | /delete/\<item_id_unique>/| API for deleting an item| DELETE| none| message/detail
 
+### Websocket
+
+url: ws://134.209.207.128/ws/server_time/<br>
+response: {date:\<date>, time:\<time>}
+
+This is simple websocket application for testing websocket connection.
+
 </section>
