@@ -26,8 +26,7 @@ Contained Technologies
 Setup
 
 ```bash
-$ virtualenv venv -p python3
-$ source venv/bin/activate
-(venv)$ pip install -r requirements.txt
-$ python manage.py runserver <ip_address:desired_port>
+$ git clone https://github.com/serkankas/django_kanban_backend.git
+$ cd django_kanban_backend/
+$ python3 install.py -i -d -n
 ```
