@@ -58,9 +58,9 @@ Authentication should be set as follow in headers<br>
 ```Authorization: Bearer <access_token>```
 
 The APIs that shouldn't use token:
-/api/auth/token/get/
-/api/auth/token/refresh/
-/api/user/create/
+1. /api/auth/token/get/
+1. /api/auth/token/refresh/
+1. /api/user/create/
 
 AUTH-REASON: Token get and refresh gives an error if you implement expired token in it. So, be careful about this usage.<br>
 USER-REASON: We want to applicant to create their own users for test purposes. NOT IDEAL Scenario.
