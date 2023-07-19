@@ -81,7 +81,10 @@ def create_item_information(request, *args, **kwargs):
     category_id = captured_fields["category_id"]
     order = Item.count(user, category_id) + 1
     title = captured_fields['item_title']
-    category = Category.objects.get(pk=category_id)
+    try:
+        category = Category.objects.get(pk=category_id)
+    except Category.DoesNotExist:
+        return Response({"message": "This user cannot create item in this category."}, status=status.HTTP_406_NOT_ACCEPTABLE)
     item_id = Item.get_next_id() + 1
     if check_category_permission(category_id, user):
         return Response({"message": "This user cannot create item in this category."}, status=status.HTTP_406_NOT_ACCEPTABLE)
