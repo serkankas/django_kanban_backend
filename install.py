@@ -82,10 +82,21 @@ def set_nginx_conf():
         execute_os_command(f"mv {_BACKEND_PATH}/nginx.conf {_NGIX_PATH}/sites-available/")
         print("Creating Symbolink")
         execute_os_command(f"ln -s {_NGIX_PATH}/sites-available/nginx.conf {_NGIX_PATH}/sites-enabled/")
+        print("Removing default nginx files")
+        remove_default_nginx()
         print("Restarting NGINX Service")
         execute_os_command("systemctl restart nginx")
+        os.chdir(_BASE_PATH)
     else:
+        os.chdir(_BASE_PATH)
         raise KeyError("There is no NGINX configuration file is found\nPlease start installation without -n parameter!")
+
+def remove_default_nginx():
+    global _NGIX_PATH
+    if os.path.exists(f"{_NGIX_PATH}/sites-available/default"):
+        os.remove(f"{_NGIX_PATH}/sites-available/default")
+    if os.path.exists(f"{_NGIX_PATH}/sites-enabled/default"):
+        os.remove(f"{_NGIX_PATH}/sites-enabled/default")
 
 def set_daphne_daemon():
     global _DAEMON_PATH
