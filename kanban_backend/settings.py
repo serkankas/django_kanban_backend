@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     # Personal Apps
     'api.apps.ApiConfig',
     'websocket.apps.WebsocketConfig',
+    'commons.apps.CommonsConfig',
 
 ]
 
