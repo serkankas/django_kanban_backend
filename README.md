@@ -103,7 +103,7 @@ For Request body or Response body, if else is not mentioned, the body itself is 
 |http://134.209.207.128/api |/auth |/token/refresh/ | if access token is expired, it should be called. If the refresh token is also expired then the new token should be requested. |POST| refresh:refresh_token| access:access_token, refresh:refresh_token
 |http://134.209.207.128/api |/user |/list/ | listing users with their ids. Also could be used for if you successfully access | GET| none| list [user_id, user_username]
 |http://134.209.207.128/api |/user | /get/\<user_id>/| This api will return the information about your user.| GET| none|  id:user_id, username:user_username, first_name:user_first_name, last_name:user_last_name
-|http://134.209.207.128/api |/user | /create/| This is used for user creation| POST|username:user_username, password:user_password, first_name:user_first_name, last_name:user_last_name| message
+|http://134.209.207.128/api |/user | /create/| This is used for user creation| POST|username:user_username, password:user_password, first_name:user_first_name, last_name:user_last_name, email:user_email| message
 |http://134.209.207.128/api |/user |/update/\<user_id>/| This api is used for changing user information except password| PUT|   id:user_id, username:user_username, first_name:user_first_name, last_name:user_last_name| message
 |http://134.209.207.128/api |/user |/delete/<user_id>/ | This api used for user remove | DELETE| none| message/detail
 |http://134.209.207.128/api |/user | /change_password/<user_id>/| Seperate api for changing user password| PUT/PATCH| id:user_id, username:user_username, password:user_password| message/detail
