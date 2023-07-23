@@ -98,6 +98,7 @@ def change_user_password(request, *args, **kwargs):
         password = captured_fields["password"]
         if check_password_quality(password):
             user.set_password(password)
+            user.save()
             return Response({"message": f"The user {username}'s password changed successfully!"}, status=status.HTTP_202_ACCEPTED)
         else:
             return Response({"message": f"Couldn't pass the quality control"}, status=status.HTTP_400_BAD_REQUEST)
