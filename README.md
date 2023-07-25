@@ -41,6 +41,42 @@ $ python3 install.py -i -d -n
 
 <hr>
 
+## Tasks
+
+Build a simple web application that allows users to create and manage a list of tasks/items. Each task should have a title, description, and a category (e.g., "to do", "in progress", or "done").<br>
+Tasks category should be able to be updated with drag and drop.<br>
+Frontend should have modern design.<br>
+Things you will need by the backend, such as API endpoints and database models, are given to you in advance.<br>
+Connect given api endpoint with your web app<br>
+Requirements:
+
+The front-end should be built with React, using a state management library of your choice (e.g., Redux, MobX).<br>
+The frontend must have Drag & Drop functionality <br>
+The application should have the following functionality:<br>
+
+The user can create its own account without validation. (For testing environment purposed.Not ideal)<br>
+The user could sign in with their credentials.<br>
+The user has to capture its own id from user list.<br>
+
+The user should be able to create a new task by entering a category_id, title and description.<br>
+The user should be able to view a list of all tasks, sorted by their category and order_id.<br>
+The user should be able to update the category of a task (e.g., from "to do" to "in progress").<br>
+The user should be able to delete a task.<br>
+The application should have appropriate error handling and validation (e.g., preventing the user from submitting a blank title).<br>
+
+The user should be able to create a new category by entering category title.<br>
+The user should be able to view list of all categories he has, sorted by order_id.<br>
+The user should be able to change the order of categories.<br>
+The user should be able to delete the category/ies.<br>
+
+The application should have appropriate styling using a CSS framework of your choice (e.g.,  Material UI). Preferred: Material UI
+
+The code should be well-organized and documented.
+
+You should include instructions for setting up and running the application locally.
+
+<hr>
+
 <section id="app_notes">
 
 ## Application Notes
