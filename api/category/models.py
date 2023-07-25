@@ -39,7 +39,7 @@ class Category(models.Model):
             else:
                 pass
         
-        self.order_id = desired_id
+        self.order_id = counter
         self.save()
         counter += 1
 
